@@ -1,0 +1,18 @@
+{
+  "name": "repo-tools",
+  "version": "0.0.1",
+  "description": "Useful commands to work with remote repositories",
+  "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilbarbara/repo-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gilbarbara/repo-tools/issues"
+  },
+  "homepage": "https://github.com/gilbarbara/repo-tools#readme",
+  "keywords": [
+    "tools",
+    "git"
+  ]
+}
