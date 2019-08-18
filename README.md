@@ -1,8 +1,8 @@
 # repo-tools
 
-[![npm version](https://badge.fury.io/js/repo-tools.svg)](https://badge.fury.io/js/repo-tools) [![Build Status](https://travis-ci.org/gilbarbara/repo-tools.svg?branch=master)](https://travis-ci.org/gilbarbara/repo-tools) [![Maintainability](https://api.codeclimate.com/v1/badges/73f73d8c882f4318ec9a/maintainability)](https://codeclimate.com/github/gilbarbara/repo-tools/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/73f73d8c882f4318ec9a/test_coverage)](https://codeclimate.com/github/gilbarbara/repo-tools/test_coverage)
+[![npm version](https://badge.fury.io/js/repo-tools.svg)](https://www.npmjs.com/package/repo-tools) [![Build Status](https://travis-ci.org/gilbarbara/repo-tools.svg?branch=master)](https://travis-ci.org/gilbarbara/repo-tools) [![Maintainability](https://api.codeclimate.com/v1/badges/73f73d8c882f4318ec9a/maintainability)](https://codeclimate.com/github/gilbarbara/repo-tools/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/73f73d8c882f4318ec9a/test_coverage)](https://codeclimate.com/github/gilbarbara/repo-tools/test_coverage)
 
-This packages provides useful CLI tools for working with remote repositories.
+Useful CLI commands for working with remote repositories.
 
 ## Setup
 
