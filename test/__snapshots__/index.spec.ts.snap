@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CLI should show help 1`] = `
+"repo-tools <command>
+
+Commands:
+  repo-tools check-remote      Check if repo has remote commits
+  repo-tools install-packages  Run \`npm install\` if package.json has
+                               changed
+
+Options:
+  --help     Show help                                         [boolean]
+  --version  Show version number                               [boolean]"
+`;
+
+exports[`CLI should show help for invalid commands 1`] = `
+"repo-tools <command>
+
+Commands:
+  repo-tools check-remote      Check if repo has remote commits
+  repo-tools install-packages  Run \`npm install\` if package.json has
+                               changed
+
+Options:
+  --help     Show help                                         [boolean]
+  --version  Show version number                               [boolean]
+
+Unknown argument: command"
+`;
