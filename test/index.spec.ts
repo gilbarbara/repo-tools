@@ -107,7 +107,7 @@ describe('check-remote', () => {
     commands['git rev-parse --is-inside-work-tree'].exitCode = 1;
     await checkRemote.handler();
 
-    expect(mockLog).toHaveBeenLastCalledWith('\u001b[33m⚠ not under git\u001b[39m');
+    expect(mockLog).toHaveBeenLastCalledWith(expect.stringContaining('⚠ not under git'));
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
 
@@ -116,7 +116,7 @@ describe('check-remote', () => {
 
     await checkRemote.handler();
 
-    expect(mockLog).toHaveBeenLastCalledWith('\u001b[33m⚠ No remote\u001b[39m');
+    expect(mockLog).toHaveBeenLastCalledWith(expect.stringContaining('⚠ No remote'));
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
 
@@ -127,7 +127,7 @@ describe('check-remote', () => {
 
     await checkRemote.handler();
 
-    expect(mockLog).toHaveBeenLastCalledWith('\u001b[33m⚠ No local commits\u001b[39m');
+    expect(mockLog).toHaveBeenLastCalledWith(expect.stringContaining('⚠ No local commits'));
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
 
@@ -138,7 +138,7 @@ describe('check-remote', () => {
     await checkRemote.handler();
 
     expect(mockLog).toHaveBeenLastCalledWith(
-      "\u001b[33m⚠ Warning: fatal: no such branch: 'master'\u001b[39m",
+      expect.stringContaining("⚠ Warning: fatal: no such branch: 'master'"),
     );
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
@@ -149,7 +149,7 @@ describe('check-remote', () => {
 
     await checkRemote.handler();
 
-    expect(mockLog).toHaveBeenLastCalledWith('\u001b[33m⚠ No upstream\u001b[39m');
+    expect(mockLog).toHaveBeenLastCalledWith(expect.stringContaining('⚠ No upstream'));
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
 
@@ -158,7 +158,7 @@ describe('check-remote', () => {
 
     await checkRemote.handler();
 
-    expect(mockLog).toHaveBeenLastCalledWith('\u001b[32m✔ Repo is up-to-date!\u001b[39m');
+    expect(mockLog).toHaveBeenLastCalledWith(expect.stringContaining('✔ Repo is up-to-date!'));
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
 
@@ -166,7 +166,7 @@ describe('check-remote', () => {
     await checkRemote.handler();
 
     expect(mockLog).toHaveBeenLastCalledWith(
-      '\u001b[31m⊘ You need to pull, there are new commits.\u001b[39m',
+      expect.stringContaining('⊘ You need to pull, there are new commits.'),
     );
     expect(mockExit).toHaveBeenLastCalledWith(1);
   });
@@ -214,7 +214,7 @@ describe('install-packages', () => {
   it('should handle commits without package.json', async () => {
     await installPackages.handler();
 
-    expect(mockLog).toHaveBeenLastCalledWith('\u001b[32m✔ Nothing to update\u001b[39m');
+    expect(mockLog).toHaveBeenLastCalledWith(expect.stringContaining('✔ Nothing to update'));
   });
 
   it('should handle commits with package.json', async () => {
@@ -225,7 +225,7 @@ describe('install-packages', () => {
     await installPackages.handler();
 
     expect(mockLog).toHaveBeenLastCalledWith(
-      '\u001b[33m▼ package.json is modified. Running `npm install`...\u001b[39m',
+      expect.stringContaining('▼ package.json is modified. Running `npm install`...'),
     );
   });
 });
