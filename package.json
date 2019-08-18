@@ -49,7 +49,7 @@
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
-    "validate": "npm run lint && npm run test:coverage && npm run build",
+    "validate": "npm run lint && npm run build && npm run test:coverage",
     "prepublishOnly": "npm run validate"
   },
   "prettier": {
@@ -98,7 +98,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "ts-node src/index check-remote",
+      "pre-commit": "ts-node src/index check-remote && npm run validate",
       "post-merge": "ts-node src/index install-packages"
     }
   }

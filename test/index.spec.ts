@@ -243,10 +243,6 @@ describe('helpers', () => {
 });
 
 describe('CLI', () => {
-  beforeAll(async () => {
-    await command('npm run build');
-  });
-
   it('should show help', async () => {
     const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} help`);
     expect(stdout).toMatchSnapshot();
