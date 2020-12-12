@@ -3,6 +3,11 @@
   "version": "0.2.0",
   "description": "Useful commands to work with remote repositories",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "keywords": [
+    "tools",
+    "git"
+  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gilbarbara/repo-tools.git"
@@ -11,55 +16,63 @@
     "url": "https://github.com/gilbarbara/repo-tools/issues"
   },
   "homepage": "https://github.com/gilbarbara/repo-tools#readme",
-  "keywords": [
-    "tools",
-    "git"
-  ],
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "types": "lib",
+  "sideEffects": false,
   "bin": {
     "repo-tools": "lib/cli.js"
   },
-  "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.2",
     "yargs": "^13.3.0"
   },
   "devDependencies": {
     "@gilbarbara/tsconfig": "^0.1.0",
-    "@types/jest": "^24.0.17",
-    "@types/node": "^12.7.2",
+    "@size-limit/preset-small-lib": "^4.9.1",
+    "@types/jest": "^26.0.16",
+    "@types/node": "^14.14.10",
     "@types/yargs": "^13.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.2.0",
     "execa": "^2.0.4",
-    "husky": "^3.0.4",
-    "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "rimraf": "^3.0.0",
-    "ts-jest": "^24.0.2",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.18.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.3"
+    "husky": "^4.3.5",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
+    "size-limit": "^4.9.1",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.2"
   },
   "scripts": {
-    "build": "npm run clean && npm run build:ts && chmod +x lib/cli.js ",
-    "build:ts": "tsc --outDir lib",
-    "watch": "npm run build:ts -- -w",
+    "build": "npm run clean && npm run build:cjs && chmod +x lib/cli.js ",
+    "build:cjs": "tsc --outDir lib",
+    "watch": "npm run build:cjs -- -w",
     "clean": "rimraf lib",
-    "lint": "tslint 'src/**/*.ts'",
+    "lint": "eslint --ext .ts,.tsx src test",
     "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
+    "test:coverage": "jest --bail --coverage",
+    "test:watch": "jest --watchAll --verbose",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
-    "validate": "npm run lint && npm run build && npm run test:coverage",
+    "validate": "npm run lint && npm run build && npm run test:coverage && npm run size",
+    "size": "size-limit",
     "prepublishOnly": "npm run validate"
   },
   "prettier": {
-    "trailingComma": "all",
-    "singleQuote": true,
     "arrowParens": "avoid",
     "printWidth": 100,
-    "proseWrap": "never"
+    "proseWrap": "never",
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "jest": {
     "collectCoverage": false,
@@ -78,7 +91,7 @@
     },
     "globals": {
       "ts-jest": {
-        "tsConfig": {
+        "tsconfig": {
           "noUnusedLocals": false,
           "noUnusedParameters": false,
           "target": "esnext"
@@ -96,8 +109,15 @@
     ],
     "preset": "ts-jest",
     "testRegex": "/test/.*?\\.(test|spec)\\.ts$",
-    "verbose": true
+    "verbose": false
   },
+  "size-limit": [
+    {
+      "path": "./lib/index.js",
+      "limit": "1 kB",
+      "webpack": false
+    }
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "ts-node src/index check-remote && npm run validate",

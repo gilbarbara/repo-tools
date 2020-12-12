@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'fs';
 
 export const run = promisify(exec);
 
-export const getVersion = () => {
+export const getVersion = (): string => {
   const pkgPath = join(process.cwd(), 'package.json');
 
   /* istanbul ignore else */
@@ -16,5 +16,6 @@ export const getVersion = () => {
     return pkg.version;
   }
 
+  /* istanbul ignore next */
   return '--';
 };

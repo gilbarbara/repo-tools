@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CLI should show help 1`] = `
+exports[`CLI should output the help 1`] = `
 "repo-tools <command>
 
 Commands:
@@ -13,7 +13,7 @@ Options:
   --version  Show version number                               [boolean]"
 `;
 
-exports[`CLI should show help for invalid commands 1`] = `
+exports[`CLI should output the help for invalid commands 1`] = `
 "repo-tools <command>
 
 Commands:
