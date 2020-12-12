@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import { join } from 'path';
 import { command } from 'execa';
 
@@ -8,7 +7,7 @@ import * as installPackages from '../src/install-packages';
 import { getVersion, run } from '../src/helpers';
 
 const getCommands = () => {
-  const baseCommands: { [key: string]: any } = {
+  const baseCommands: Record<string, any> = {
     'git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD': {
       exitCode: 0,
       stderr: '',
@@ -73,8 +72,8 @@ jest.mock('child_process', () => {
 });
 
 describe('check-remote', () => {
-  const log = console.log;
-  const exit = process.exit;
+  const { log } = console;
+  const { exit } = process;
   const mockLog = jest.fn();
   const mockExit = jest.fn();
 
@@ -173,7 +172,7 @@ describe('check-remote', () => {
 });
 
 describe('install-packages', () => {
-  const log = console.log;
+  const { log } = console;
   const mockLog = jest.fn();
 
   beforeAll(() => {
@@ -243,17 +242,17 @@ describe('helpers', () => {
 });
 
 describe('CLI', () => {
-  it('should show help', async () => {
+  it('should output the help', async () => {
     const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} help`);
     expect(stdout).toMatchSnapshot();
   });
 
-  it('should show version', async () => {
+  it('should output the version', async () => {
     const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} --version`);
     expect(/\d+\.\d+\.\d+/.test(stdout)).toBe(true);
   });
 
-  it('should show help for invalid commands', async () => {
+  it('should output the help for invalid commands', async () => {
     try {
       await command(`${join(process.cwd(), 'lib/cli.js')} command`);
     } catch (error) {

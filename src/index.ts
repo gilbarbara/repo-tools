@@ -1,4 +1,3 @@
-/* tslint:disable:no-console, no-var-requires */
 import * as yargs from 'yargs';
 
 import { getVersion } from './helpers';

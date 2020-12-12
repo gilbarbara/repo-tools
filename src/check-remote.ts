@@ -1,11 +1,10 @@
-/* tslint:disable:no-console */
 import chalk from 'chalk';
 
 import { run } from './helpers';
 
 export const command = 'check-remote';
 export const describe = 'Check if repo has remote commits';
-export const handler = () =>
+export const handler = (): Promise<void> =>
   run('git rev-parse --is-inside-work-tree')
     .then(() =>
       run('git ls-remote --exit-code --heads')
