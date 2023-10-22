@@ -1,6 +1,7 @@
 import { join } from 'path';
 
-import { command } from 'execa';
+import { execaCommand } from 'execa';
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import * as checkRemote from '../src/commands/check-remote';
 import * as installPackages from '../src/commands/install-packages';
@@ -62,8 +63,8 @@ function exec(
   };
 }
 
-jest.mock('child_process', () => {
-  const childProcess = jest.requireActual('child_process');
+vi.mock('child_process', () => {
+  const childProcess = vi.importActual('child_process');
 
   return {
     ...childProcess,
@@ -74,8 +75,8 @@ jest.mock('child_process', () => {
 describe('check-remote', () => {
   const { log } = console;
   const { exit } = process;
-  const mockLog = jest.fn();
-  const mockExit = jest.fn();
+  const mockLog = vi.fn();
+  const mockExit = vi.fn();
 
   beforeAll(() => {
     // @ts-ignore
@@ -173,7 +174,7 @@ describe('check-remote', () => {
 
 describe('install-packages', () => {
   const { log } = console;
-  const mockLog = jest.fn();
+  const mockLog = vi.fn();
 
   beforeAll(() => {
     console.log = mockLog;
@@ -204,14 +205,6 @@ describe('install-packages', () => {
     await expect(installPackages.handler()).rejects.toThrow(
       'Error: fatal: not a git repository (or any of the parent directories): .git',
     );
-
-    // try {
-    //   await installPackages.handler();
-    // } catch (error: any) {
-    //   expect(error.message).toBe(
-    //     'Error: fatal: not a git repository (or any of the parent directories): .git',
-    //   );
-    // }
   });
 
   it('should handle commits without package.json', async () => {
@@ -235,10 +228,14 @@ describe('install-packages', () => {
 
 describe('helpers', () => {
   it('`getVersion` should return properly', () => {
-    expect(/\d+\.\d+\.\d+/.test(getVersion())).toBe(true);
+    expect(
+      /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[A-Za-z-][\dA-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][\dA-Za-z-]*))*))?(?:\+([\dA-Za-z-]+(?:\.[\dA-Za-z-]+)*))?$/.test(
+        getVersion(),
+      ),
+    ).toBe(true);
   });
 
-  it('`run` should', async () => {
+  it('`run` should return an exec promise', async () => {
     const output = await run('npm install');
 
     expect(output).toBe('installing');
@@ -247,22 +244,21 @@ describe('helpers', () => {
 
 describe('CLI', () => {
   it('should output the help', async () => {
-    const { stdout } = await command(`${join(process.cwd(), 'dist/cli.js')} help`);
+    const { stdout } = await execaCommand(`${join(process.cwd(), 'dist/cli.js')} help`);
 
     expect(stdout).toMatchSnapshot();
   });
 
   it('should output the version', async () => {
-    const { stdout } = await command(`${join(process.cwd(), 'dist/cli.js')} --version`);
+    const { stdout } = await execaCommand(`${join(process.cwd(), 'dist/cli.js')} --version`);
 
     expect(/\d+\.\d+\.\d+/.test(stdout)).toBe(true);
   });
 
   it('should output the help for invalid commands', async () => {
     try {
-      await command(`${join(process.cwd(), 'dist/cli.js')} command`);
+      await execaCommand(`${join(process.cwd(), 'dist/cli.js')} command`);
     } catch (error: any) {
-      // eslint-disable-next-line jest/no-conditional-expect
       expect(error.stderr).toMatchSnapshot();
     }
   });

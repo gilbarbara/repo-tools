@@ -17,7 +17,6 @@ export const handler = (): Promise<void> =>
             .then(values => {
               const [{ stdout: $local }, { stdout: $remote }, { stdout: $base }] = values;
 
-              /* istanbul ignore else */
               if ($local === $remote) {
                 console.log(green('✔ Repo is up-to-date!'));
               } else if ($local === $base) {
