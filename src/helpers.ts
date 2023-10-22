@@ -8,14 +8,13 @@ export const run = promisify(exec);
 export const getVersion = (): string => {
   const packagePath = join(process.cwd(), 'package.json');
 
-  /* istanbul ignore else */
-  if (existsSync(packagePath)) {
-    const packageSrc = readFileSync(packagePath, 'utf8');
-    const { version } = JSON.parse(packageSrc);
-
-    return version;
+  /* c8 ignore next 3 */
+  if (!existsSync(packagePath)) {
+    return '--';
   }
 
-  /* istanbul ignore next */
-  return '--';
+  const packageSrc = readFileSync(packagePath, 'utf8');
+  const { version } = JSON.parse(packageSrc);
+
+  return version;
 };
