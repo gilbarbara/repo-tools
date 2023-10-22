@@ -192,7 +192,9 @@ describe('install-packages', () => {
   it('should have the the required exports', () => {
     expect(installPackages.command).toBe('install-packages');
 
-    expect(installPackages.describe).toBe('Run `npm install` if package.json has changed');
+    expect(installPackages.describe).toBe(
+      'Run `npm/yarn/pnpm/bun install` if package.json has changed',
+    );
 
     expect(typeof installPackages.handler).toBe('function');
   });
@@ -203,7 +205,7 @@ describe('install-packages', () => {
       'fatal: not a git repository (or any of the parent directories): .git';
 
     await expect(installPackages.handler()).rejects.toThrow(
-      'Error: fatal: not a git repository (or any of the parent directories): .git',
+      'fatal: not a git repository (or any of the parent directories): .git',
     );
   });
 
@@ -221,7 +223,7 @@ describe('install-packages', () => {
     await installPackages.handler();
 
     expect(mockLog).toHaveBeenLastCalledWith(
-      expect.stringContaining('▼ package.json is modified. Running `npm install`...'),
+      expect.stringContaining('▼ package.json is modified. Running "pnpm install"...'),
     );
   });
 });

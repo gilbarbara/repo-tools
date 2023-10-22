@@ -5,8 +5,8 @@ exports[`CLI > should output the help 1`] = `
 
 Commands:
   repo-tools check-remote      Check if repo has remote commits
-  repo-tools install-packages  Run \`npm install\` if package.json has
-                               changed
+  repo-tools install-packages  Run \`npm/yarn/pnpm/bun install\` if
+                               package.json has changed
 
 Options:
   --help     Show help                                         [boolean]
@@ -18,8 +18,8 @@ exports[`CLI > should output the help for invalid commands 1`] = `
 
 Commands:
   repo-tools check-remote      Check if repo has remote commits
-  repo-tools install-packages  Run \`npm install\` if package.json has
-                               changed
+  repo-tools install-packages  Run \`npm/yarn/pnpm/bun install\` if
+                               package.json has changed
 
 Options:
   --help     Show help                                         [boolean]
