@@ -1,7 +1,7 @@
 import * as yargs from 'yargs';
 
-import { getVersion } from './helpers';
 import * as checkRemote from './check-remote';
+import { getVersion } from './helpers';
 import * as installPackages from './install-packages';
 
 export const tools = yargs
