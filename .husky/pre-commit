@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-ts-node src/index check-remote && npm run validate
+ts-node src/cli check-remote && npm run validate

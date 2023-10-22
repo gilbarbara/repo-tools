@@ -2,9 +2,9 @@ import { join } from 'path';
 
 import { command } from 'execa';
 
-import * as checkRemote from '../src/check-remote';
+import * as checkRemote from '../src/commands/check-remote';
+import * as installPackages from '../src/commands/install-packages';
 import { getVersion, run } from '../src/helpers';
-import * as installPackages from '../src/install-packages';
 
 const getCommands = () => {
   const baseCommands: Record<string, any> = {
@@ -247,20 +247,20 @@ describe('helpers', () => {
 
 describe('CLI', () => {
   it('should output the help', async () => {
-    const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} help`);
+    const { stdout } = await command(`${join(process.cwd(), 'dist/cli.js')} help`);
 
     expect(stdout).toMatchSnapshot();
   });
 
   it('should output the version', async () => {
-    const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} --version`);
+    const { stdout } = await command(`${join(process.cwd(), 'dist/cli.js')} --version`);
 
     expect(/\d+\.\d+\.\d+/.test(stdout)).toBe(true);
   });
 
   it('should output the help for invalid commands', async () => {
     try {
-      await command(`${join(process.cwd(), 'lib/cli.js')} command`);
+      await command(`${join(process.cwd(), 'dist/cli.js')} command`);
     } catch (error: any) {
       // eslint-disable-next-line jest/no-conditional-expect
       expect(error.stderr).toMatchSnapshot();

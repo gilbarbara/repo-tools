@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 
 import { green, yellow } from 'kolorist';
 
-import { run } from './helpers';
+import { run } from '../helpers';
 
 export const command = 'install-packages';
 export const describe = 'Run `npm install` if package.json has changed';

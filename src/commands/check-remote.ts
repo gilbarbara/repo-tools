@@ -1,6 +1,6 @@
 import { green, red, yellow } from 'kolorist';
 
-import { run } from './helpers';
+import { run } from '../helpers';
 
 export const command = 'check-remote';
 export const describe = 'Check if repo has remote commits';
