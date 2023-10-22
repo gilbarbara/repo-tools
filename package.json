@@ -27,6 +27,7 @@
     "repo-tools": "dist/cli.js"
   },
   "dependencies": {
+    "detect-package-manager": "^3.0.1",
     "kolorist": "^1.8.0",
     "yargs": "^17.7.2"
   },
@@ -97,7 +98,7 @@
     {
       "name": "CLI",
       "path": "./dist/cli.js",
-      "limit": "45 KB"
+      "limit": "50 KB"
     }
   ]
 }
