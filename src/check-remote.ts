@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import { green, red, yellow } from 'kolorist';
 
 import { run } from './helpers';
 
@@ -19,26 +19,26 @@ export const handler = (): Promise<void> =>
 
               /* istanbul ignore else */
               if ($local === $remote) {
-                console.log(chalk.green('✔ Repo is up-to-date!'));
+                console.log(green('✔ Repo is up-to-date!'));
               } else if ($local === $base) {
-                console.log(chalk.red('⊘ You need to pull, there are new commits.'));
+                console.log(red('⊘ You need to pull, there are new commits.'));
                 process.exit(1);
               }
             })
             .catch(error => {
               if (error.message.includes('no upstream configured ')) {
-                console.log(chalk.yellow('⚠ No upstream'));
+                console.log(yellow('⚠ No upstream'));
               } else if (error.message.includes("fatal: ambiguous argument '@'")) {
-                console.log(chalk.yellow('⚠ No local commits'));
+                console.log(yellow('⚠ No local commits'));
               } else {
-                console.log(chalk.yellow(`⚠ Warning: ${error.message}`));
+                console.log(yellow(`⚠ Warning: ${error.message}`));
               }
             }),
         )
         .catch(() => {
-          console.log(chalk.yellow(`⚠ No remote`));
+          console.log(yellow(`⚠ No remote`));
         }),
     )
     .catch(() => {
-      console.log(chalk.yellow('⚠ not under git'));
+      console.log(yellow('⚠ not under git'));
     });

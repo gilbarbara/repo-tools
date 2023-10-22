@@ -1,10 +1,10 @@
 import { join } from 'path';
+
 import { command } from 'execa';
 
 import * as checkRemote from '../src/check-remote';
-import * as installPackages from '../src/install-packages';
-
 import { getVersion, run } from '../src/helpers';
+import * as installPackages from '../src/install-packages';
 
 const getCommands = () => {
   const baseCommands: Record<string, any> = {
@@ -46,24 +46,24 @@ const getCommands = () => {
 
 let commands = getCommands();
 
+function exec(
+  // @ts-ignore
+  cmd: string,
+  callback: (exitCode: Error | null, stdout: string, stderr: string) => void,
+) {
+  if (callback) {
+    const { exitCode, stderr, stdout } = commands[cmd];
+
+    callback(exitCode ? new Error(stderr) : null, stdout, stderr);
+  }
+
+  return {
+    stdout: { pipe: () => undefined },
+  };
+}
+
 jest.mock('child_process', () => {
   const childProcess = jest.requireActual('child_process');
-
-  function exec(
-    // @ts-ignore
-    cmd: string,
-    callback: (exitCode: Error | null, stdout: string, stderr: string) => void,
-  ) {
-    if (callback) {
-      const { exitCode, stdout, stderr } = commands[cmd];
-
-      callback(exitCode ? new Error(stderr) : null, stdout, stderr);
-    }
-
-    return {
-      stdout: { pipe: () => undefined },
-    };
-  }
 
   return {
     ...childProcess,
@@ -142,7 +142,7 @@ describe('check-remote', () => {
     expect(mockExit).toHaveBeenCalledTimes(0);
   });
 
-  it('should handle no local commits', async () => {
+  it('should handle no upstream', async () => {
     commands['git rev-parse @{u}'].exitCode = 128;
     commands['git rev-parse @{u}'].stderr = "fatal: no upstream configured for branch 'master'";
 
@@ -201,13 +201,17 @@ describe('install-packages', () => {
     commands['git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD'].stderr =
       'fatal: not a git repository (or any of the parent directories): .git';
 
-    try {
-      await installPackages.handler();
-    } catch (error) {
-      expect(error.message).toBe(
-        'Error: fatal: not a git repository (or any of the parent directories): .git',
-      );
-    }
+    await expect(installPackages.handler()).rejects.toThrow(
+      'Error: fatal: not a git repository (or any of the parent directories): .git',
+    );
+
+    // try {
+    //   await installPackages.handler();
+    // } catch (error: any) {
+    //   expect(error.message).toBe(
+    //     'Error: fatal: not a git repository (or any of the parent directories): .git',
+    //   );
+    // }
   });
 
   it('should handle commits without package.json', async () => {
@@ -234,7 +238,7 @@ describe('helpers', () => {
     expect(/\d+\.\d+\.\d+/.test(getVersion())).toBe(true);
   });
 
-  it('`run` should ', async () => {
+  it('`run` should', async () => {
     const output = await run('npm install');
 
     expect(output).toBe('installing');
@@ -244,18 +248,21 @@ describe('helpers', () => {
 describe('CLI', () => {
   it('should output the help', async () => {
     const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} help`);
+
     expect(stdout).toMatchSnapshot();
   });
 
   it('should output the version', async () => {
     const { stdout } = await command(`${join(process.cwd(), 'lib/cli.js')} --version`);
+
     expect(/\d+\.\d+\.\d+/.test(stdout)).toBe(true);
   });
 
   it('should output the help for invalid commands', async () => {
     try {
       await command(`${join(process.cwd(), 'lib/cli.js')} command`);
-    } catch (error) {
+    } catch (error: any) {
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(error.stderr).toMatchSnapshot();
     }
   });
